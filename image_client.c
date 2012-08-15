@@ -29,6 +29,7 @@ int main(int argc, char*argv[]) {
 
 	printf("%ld\n", fileSize);
 
+	// Open port and get hostname from args
 	int portno = atoi(argv[2]);
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) 
@@ -39,6 +40,8 @@ int main(int argc, char*argv[]) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
     }
+
+    // Attempt a connection after binding the port to the socket
     struct sockaddr_in serv_addr;
     bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
@@ -52,13 +55,14 @@ int main(int argc, char*argv[]) {
 	buffer = (char *) malloc(sizeof(char) * bufferSize);
 	int count = 0;
     int i;
+    // As it says on the tin, read the file into the buffer and send, send, send!
     while(i < fileSize) {
     	fread(buffer, bufferSize, 1, fp);
 	    send(sockfd, buffer, bufferSize, 0);
 	    count++;
 	    i+=bufferSize;
     }
-
+    // Printouts to satisfy my curiousity.
     printf("%d\n", i);
     printf("%s\n", "File sent, cleaning up");
     printf("%d\n", count);

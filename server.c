@@ -20,6 +20,7 @@ void error(const char *msg)
     exit(1);
 }
 
+//Used to listen for interrupts from the keyboard (Currently unused)
 int my_getch()
 {
     termios oldt;
@@ -70,7 +71,7 @@ int main(int argc, char *argv[])
     //Create/Open a file with the below name
     FILE *dest = fopen("received.jpg", "wb");
     int key;
-    // char *buffer = (char *) malloc(sizeof(char) * bufferSize);
+
     while(running) {
        // Start socket listening with max of 5 pending connections
        listen(sockfd, 5);
@@ -91,6 +92,7 @@ int main(int argc, char *argv[])
             if (n < 0) error("ERROR reading from socket");
             count++;
         }
+        // No need to send something back, but here if needed
        // n = write(newsockfd,"I got your message",18);
        // if (n < 0) error("ERROR writing to socket");
        printf("%d\n", count);
